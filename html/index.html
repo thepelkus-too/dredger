@@ -1,8 +1,37 @@
 {% extends "layout.html" %}
 {% block body %}
-    <ul>
-    {% for item in data %}
-        <li>{{ item }}</li>
-    {% endfor %}
-    </ul>
+  Fetch Yelp stuffs:
+  <form action="/scrape" method="POST">
+    <div style="margin-top: 2em">
+      Scrape reviews for the following city:<br />
+      <select name="city">
+        <option value="Chicago,+IL">Chicago</option>
+        <option value="New+York,+NY">NYC</option>
+        <option value="London,+United+Kingdom">London</option>
+      </select>
+    </div>
+
+    <div style="margin-top: 2em">
+      With reviews matching the search term:<br />
+      <input type="text" name="search_term" />
+    </div>
+
+    <div style="margin-top: 2em">
+      For reviews with a ranking that is:<br />
+      <select name="ranking">
+        <option value="&sort_by=rating_desc">High</option>
+        <option value="&sort_by=rating_asc">Low</option>
+        <option value="">Average</option>
+      </select>
+    </div>
+
+    <div style="margin-top: 2em">
+      Scrape the following number of pages:<br />
+      <input type="text" name="number_of_pages" />
+    </div>
+
+    <div style="margin-top: 2em">
+      <input type="submit" />
+    </div>
+  </form>
 {% endblock %}
