@@ -87,6 +87,8 @@ def get_yelp(city_string, search_term_string, rating_suffix, num_pages):
     foo = soup.findAll(class_='indexed-biz-name')
     # get the link to the top search result page
 
+    print("page: %s" % (page))
+    print("soup: %s" % (soup))
     print("search_url: %s" % (search_url))
     print("indexed-biz-name matches: %s" % (foo))
 
