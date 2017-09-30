@@ -87,26 +87,33 @@ def get_yelp(city_string, search_term_string, rating_suffix, num_pages):
     foo = soup.findAll(class_='indexed-biz-name')
     # get the link to the top search result page
 
-    for f in foo:
-        if f.get_text()[0:2] == '1.':
-            print("Link should be assigned")
-            link = f.contents[1]['href']  # link from top search result
-            break
+    print("search_url: %s" % (search_url))
+    print("indexed-biz-name matches: %s" % (foo))
 
-    url_list = []
-    for n in range(0, int(num_pages) * 20, 20):
-        url = "https://www.yelp.com%s?start=%s%s" % (link, n, rating_suffix)
-        url_list.append(url)
+    try:
+        for f in foo:
+            if f.get_text()[0:2] == '1.':
+                print("Link should be assigned")
+                link = f.contents[1]['href']  # link from top search result
+                break
 
-    scraped_text = ""
-    for url in url_list:
-        print(url)
-        page = requests.get(url).text
-        soup = BeautifulSoup(page, "html.parser")
-        foo = soup.findAll(itemprop="description")
-        for x in foo:
-            scraped_text += x.get_text()
-    return scraped_text
+        url_list = []
+        for n in range(0, int(num_pages) * 20, 20):
+            url = "https://www.yelp.com%s?start=%s%s" % (link, n,
+                                                         rating_suffix)
+            url_list.append(url)
+
+        scraped_text = ""
+        for url in url_list:
+            print(url)
+            page = requests.get(url).text
+            soup = BeautifulSoup(page, "html.parser")
+            foo = soup.findAll(itemprop="description")
+            for x in foo:
+                scraped_text += x.get_text()
+        return scraped_text
+    except Exception as e:
+        raise
 
 
 if __name__ == "__main__":
