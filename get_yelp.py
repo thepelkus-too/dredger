@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
+import random
+
 """
 get_yelp() prompts the user to choose a city and a search term. The program uses Yelp's search function
 and pulls up the page for the top non-sponsored result and collects the text from however many pages of reviews the
@@ -82,7 +84,15 @@ def get_yelp(city_string, search_term_string, rating_suffix, num_pages):
     search_url = 'https://www.yelp.com/search?find_desc=%s&find_loc=%s' % (
         search_term_string, city_string)
 
-    page = requests.get(search_url).text
+    proxies = [
+            'http://35.196.26.166:3128',
+            'http://35.153.103.126:3128',
+            'http://54.165.92.118:3128',
+            'http://34.201.9.244:3128',
+            'http://54.85.29.39:3128'
+            ]
+
+    page = requests.get(search_url, proxies={'http': random.choice(proxies)}).text
     soup = BeautifulSoup(page, "html.parser")
     foo = soup.findAll(class_='indexed-biz-name')
     # get the link to the top search result page
